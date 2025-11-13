@@ -78,7 +78,7 @@ Réponse :
 }
 
 → Ensuite, utiliser le token dans les en-têtes :  
-Authorization: Bearer <token>  
+Authorization: Bearer YOUR_TOKEN_HERE  
 Accept: application/json
 
 ---
@@ -88,6 +88,7 @@ Accept: application/json
 POST `/api/v1/properties`
 
 Headers :
+
 Authorization: Bearer YOUR_TOKEN_HERE  # Remplace YOUR_TOKEN_HERE par le token reçu après login
 
 Content-Type: multipart/form-data
