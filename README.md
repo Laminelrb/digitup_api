@@ -147,6 +147,68 @@ Paramètres disponibles :
 - `page` → numéro de la page à récupérer (pagination), par défaut 1.
 
 
+---
+
+### Liste des biens supprimés (trashed) – admin uniquement
+
+GET /api/v1/properties/trashed/list
+
+Exemple de réponse :
+
+{
+  "success": true,
+  "message": "Propriété supprimée récupérée avec succès.",
+  "data": {
+    "id": 5,
+    "type": "Villa",
+    "nbr_piece": 4,
+    "surface": 120,
+    "price": 350000,
+    "city": "Alger",
+    "description": "Villa spacieuse à Bab Ezzouar",
+    "status": "disponible",
+    "published": true,
+    "deleted_at": "2025-11-12T15:30:00Z",
+    "images": [
+      "storage/properties/fichier1.jpg",
+      "storage/properties/fichier2.jpg"
+    ]
+  }
+}
+
+
+---
+
+### Restaurer un bien supprimé – admin uniquement
+
+POST /api/v1/properties/{id}/restore
+
+Remplace {id} par l’ID du bien supprimé que tu veux restaurer.
+
+Exemple de réponse :
+
+{
+  "success": true,
+  "message": "Propriété restaurée avec succès.",
+  "data": {
+    "id": 5,
+    "type": "Villa",
+    "nbr_piece": 4,
+    "surface": 120,
+    "price": 350000,
+    "city": "Alger",
+    "description": "Villa spacieuse à Bab Ezzouar",
+    "status": "disponible",
+    "published": true,
+    "deleted_at": null,
+    "images": [
+      "storage/properties/fichier1.jpg",
+      "storage/properties/fichier2.jpg"
+    ]
+  }
+}
+
+
 
 ---
 
