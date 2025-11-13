@@ -8,14 +8,14 @@ use App\Http\Controllers\Api\PropertyController;
 Route::prefix('v1')->group(function () {
 
     // Routes publiques 
-    // Liste et détails des propriétés
 
-    Route::get('/properties', [PropertyController::class, 'index']);
-    Route::get('/properties/{id}', [PropertyController::class, 'show']);
+
+    Route::get('/properties', [PropertyController::class, 'index']);  // Liste des propriétés
+    Route::get('/properties/{id}', [PropertyController::class, 'show']);  // détails de propriété
 
 
     // Connexion
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login']); //login
 
 
 
@@ -25,7 +25,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
 
         // CRUD propriétés
-        Route::post('/properties', [PropertyController::class, 'store']); //Liste propriétés
+        Route::post('/properties', [PropertyController::class, 'store']); //Créer propriété
         Route::put('/properties/{id}', [PropertyController::class, 'update']); //modifier propriété
         Route::delete('/properties/{id}', [PropertyController::class, 'destroy']); //suprimer propriété (soft delete)
 
@@ -42,6 +42,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/users/{id}', [UserController::class, 'show']);   // Détail d’un agent
 
         // Déconnexion
-        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/logout', [AuthController::class, 'logout']); //deconnexion
     });
 });
