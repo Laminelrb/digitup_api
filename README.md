@@ -255,6 +255,22 @@ Accept: application/json
   "role": "agent"
 }
 
+Exemple de réponse : 
+
+{
+  "success": true,
+  "message": "Agent créé avec succès",
+  "data": {
+    "id": 5,
+    "name": "Nom Agent",
+    "email": "agent@example.com",
+    "role": "agent",
+    "created_at": "2025-11-13T12:30:00Z",
+    "updated_at": "2025-11-13T12:30:00Z"
+  }
+}
+
+
 ---
 
 ## 🔒 Rôles et accès
