@@ -124,6 +124,7 @@ images[]      | fichier2.jpg                  | File
 
 Exemple de réponse :
 
+```json
 {
   "success": true,
   "message": "Propriété récupérée avec succès.",
@@ -185,6 +186,7 @@ Accept: application/json
 
 Exemple de réponse :
 
+```json
 {
   "success": true,
   "message": "Propriété supprimée récupérée avec succès.",
@@ -224,6 +226,7 @@ Remplace {id} par l’ID du bien supprimé que tu veux restaurer.
 
 Exemple de réponse :
 
+```json
 {
   "success": true,
   "message": "Propriété restaurée avec succès.",
@@ -268,7 +271,7 @@ Accept: application/json
 }
 
 Exemple de réponse : 
-
+```json
 {
   "success": true,
   "message": "Agent créé avec succès",
