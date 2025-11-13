@@ -113,21 +113,26 @@ images[]      | fichier2.jpg                  | File
 Exemple de réponse :
 
 {
-  "id": 12,
-  "type": "Appartement",
-  "nbr_piece": 3,
-  "surface": 80,
-  "price": 150000,
-  "city": "Alger",
-  "description": "Beau T3 lumineux",
-  "status": "disponible",
-  "published": true,
-  "images": [
-    "storage/properties/fichier1.jpg",
-    "storage/properties/fichier2.jpg"
-  ],
-  "created_at": "2025-11-13T12:00:00Z"
+  "success": true,
+  "message": "Propriété récupérée avec succès.",
+  "data": {
+    "id": 12,
+    "type": "Appartement",
+    "nbr_piece": 3,
+    "surface": 80,
+    "price": 150000,
+    "city": "Alger",
+    "description": "Beau T3 lumineux",
+    "status": "disponible",
+    "published": true,
+    "images": [
+      "storage/properties/fichier1.jpg",
+      "storage/properties/fichier2.jpg"
+    ],
+    "created_at": "2025-11-13T12:00:00Z"
+  }
 }
+
 
 ---
 
