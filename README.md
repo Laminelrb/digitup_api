@@ -50,6 +50,11 @@ php artisan serve
 
 ## 🔑 Exemple Variables d'environnement
 
+- APP_NAME=Laravel
+- APP_ENV=local
+- APP_DEBUG=true
+- APP_URL=http://localhost
+
 - DB_CONNECTION=mysql
 - DB_HOST=127.0.0.1
 - DB_PORT=3306
@@ -57,6 +62,13 @@ php artisan serve
 - DB_USERNAME=root
 - DB_PASSWORD=
 - APP_URL=http://localhost
+
+- FILESYSTEM_DISK=local
+
+ # Authentification Sanctum
+- SANCTUM_STATEFUL_DOMAINS=localhost:8000
+- SESSION_DOMAIN=localhost
+- SESSION_DRIVER=database
 
 ---
 
