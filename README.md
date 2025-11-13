@@ -146,7 +146,7 @@ Paramètres disponibles :
 - `per_page` → nombre de résultats par page (pagination), par défaut 15.  
 - `page` → numéro de la page à récupérer (pagination), par défaut 1.
 
-# 🔍 Recherche full-text
+#### 🔍 Recherche full-text
 Pour permettre la recherche sur le titre et la description des biens, un index FULLTEXT a été créé sur les colonnes title et description de la table properties.
 
 ALTER TABLE properties
