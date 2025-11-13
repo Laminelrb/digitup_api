@@ -25,12 +25,12 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
 
         // CRUD propriétés
-        Route::post('/properties', [PropertyController::class, 'store']);
-        Route::put('/properties/{id}', [PropertyController::class, 'update']);
-        Route::delete('/properties/{id}', [PropertyController::class, 'destroy']);
+        Route::post('/properties', [PropertyController::class, 'store']); //Liste propriétés
+        Route::put('/properties/{id}', [PropertyController::class, 'update']); //modifier propriété
+        Route::delete('/properties/{id}', [PropertyController::class, 'destroy']); //suprimer propriété (soft delete)
 
         // Gestion des propriétés supprimées
-        Route::get('/properties/trashed/list', [PropertyController::class, 'trashed']); // Liste
+        Route::get('/properties/trashed/list', [PropertyController::class, 'trashed']); // Liste propriétés suprimées (soft delete)
         Route::post('/properties/{id}/restore', [PropertyController::class, 'restore']); // Restaurer
         Route::delete('/properties/{id}/force', [PropertyController::class, 'forceDestroy']); // Supprimer définitivement
 
