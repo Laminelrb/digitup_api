@@ -133,17 +133,19 @@ Exemple de réponse :
 
 ### Liste filtrée des biens
 
-GET `/api/v1/properties?city=Alger&type=Appartement&minPrice=100000&maxPrice=200000&q=lumineux&per_page=10&page=1`
+GET `/api/v1/properties?city=Alger&type=Appartement&status=disponible&minPrice=100000&maxPrice=200000&q=lumineux&per_page=10&page=1`
 
-Paramètres optionnels :  
+Paramètres disponibles :  
 
 - `city` → filtre par ville (exemple : "Alger"). L’API ne renverra que les biens situés dans cette ville.  
 - `type` → filtre par type de bien (exemple : "Appartement", "Maison", "Villa", etc.).  
+- `status` → filtre par statut du bien (exemple : "disponible", "vendu").  
 - `minPrice` → prix minimum souhaité (exemple : 100000). L’API ne renverra que les biens dont le prix est supérieur ou égal à cette valeur.  
 - `maxPrice` → prix maximum souhaité (exemple : 200000). L’API ne renverra que les biens dont le prix est inférieur ou égal à cette valeur.  
 - `q` → recherche full-text sur le `title` et la `description` (exemple : "lumineux").  
 - `per_page` → nombre de résultats par page (pagination), par défaut 15.  
 - `page` → numéro de la page à récupérer (pagination), par défaut 1.
+
 
 
 ---
