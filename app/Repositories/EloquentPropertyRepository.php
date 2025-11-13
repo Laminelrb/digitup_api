@@ -5,49 +5,58 @@ namespace App\Repositories;
 use App\Models\Property;
 use App\DTOs\FilterPropertiesDTO;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-/**
- * Implémentation Eloquent du PropertyRepository.
- * Gère les opérations CRUD et la pagination filtrée des propriétés.
- */
 class EloquentPropertyRepository implements PropertyRepositoryInterface
 {
-    /** Crée une nouvelle propriété */
     public function create(array $data): Property
     {
         return Property::create($data);
     }
 
-    /** Met à jour une propriété existante et retourne la version fraîche */
     public function update(Property $property, array $data): Property
     {
         $property->update($data);
         return $property->fresh();
     }
 
-    /** Supprime une propriété */
+    /** Soft delete de la propriété */
     public function delete(Property $property): void
     {
-        $property->delete();
+        $property->delete(); // Utilise automatiquement le soft delete
     }
 
-    /** 
-     * Récupère une propriété par son ID avec ses relations ou lance une exception
-     */
+    /** Suppression définitive (force delete) */
+    public function forceDelete(Property $property): void
+    {
+        $property->forceDelete();
+    }
+
+    /** Restaurer une propriété soft-deleted */
+    public function restore(int $id): Property
+    {
+        $property = Property::withTrashed()->findOrFail($id);
+        $property->restore();
+        return $property->fresh();
+    }
+
+    /** Récupérer une propriété (exclut les soft-deleted par défaut) */
     public function findOrFail(int $id): Property
     {
         return Property::with('images', 'owner')->findOrFail($id);
     }
 
-    /** 
-     * Retourne une liste paginée filtrée selon les critères du DTO
-     */
+    /** Récupérer une propriété même si soft-deleted */
+    public function findWithTrashedOrFail(int $id): Property
+    {
+        return Property::withTrashed()->with('images', 'owner')->findOrFail($id);
+    }
+
+    /** Pagination filtrée (exclut les soft-deleted) */
     public function paginateFiltered(FilterPropertiesDTO $dto, int $perPage = 15): LengthAwarePaginator
     {
         $query = Property::with('images', 'owner');
 
-        // Filtres simples
+        // Filtres existants...
         if ($dto->city) {
             $query->where('city', $dto->city);
         }
@@ -68,7 +77,6 @@ class EloquentPropertyRepository implements PropertyRepositoryInterface
             $query->where('price', '<=', (float) $dto->maxPrice);
         }
 
-        // Recherche fulltext (MySQL) ou fallback LIKE
         if ($dto->q) {
             $query->where(function ($subQuery) use ($dto) {
                 $subQuery->whereRaw(
@@ -79,11 +87,52 @@ class EloquentPropertyRepository implements PropertyRepositoryInterface
             });
         }
 
-        // Tri si précisé
         if ($dto->sortBy) {
             $query->orderBy($dto->sortBy, $dto->sortDir ?? 'desc');
         }
 
         return $query->paginate($perPage);
+    }
+
+    /** Pagination incluant les propriétés soft-deleted (pour admins) */
+    public function paginateWithTrashed(FilterPropertiesDTO $dto, int $perPage = 15): LengthAwarePaginator
+    {
+        $query = Property::withTrashed()->with('images', 'owner');
+
+        // Appliquer les mêmes filtres...
+        if ($dto->city) {
+            $query->where('city', $dto->city);
+        }
+
+        if ($dto->type) {
+            $query->where('type', $dto->type);
+        }
+
+        if ($dto->status) {
+            $query->where('status', $dto->status);
+        }
+
+        if (!is_null($dto->minPrice)) {
+            $query->where('price', '>=', (float) $dto->minPrice);
+        }
+
+        if (!is_null($dto->maxPrice)) {
+            $query->where('price', '<=', (float) $dto->maxPrice);
+        }
+
+        if ($dto->sortBy) {
+            $query->orderBy($dto->sortBy, $dto->sortDir ?? 'desc');
+        }
+
+        return $query->paginate($perPage);
+    }
+
+    /** Liste uniquement des propriétés soft-deleted */
+    public function paginateOnlyTrashed(int $perPage = 15): LengthAwarePaginator
+    {
+        return Property::onlyTrashed()
+            ->with('images', 'owner')
+            ->orderBy('deleted_at', 'desc')
+            ->paginate($perPage);
     }
 }

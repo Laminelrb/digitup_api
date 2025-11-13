@@ -29,6 +29,11 @@ Route::prefix('v1')->group(function () {
         Route::put('/properties/{id}', [PropertyController::class, 'update']);
         Route::delete('/properties/{id}', [PropertyController::class, 'destroy']);
 
+        // Gestion des propriétés supprimées
+        Route::get('/properties/trashed/list', [PropertyController::class, 'trashed']); // Liste
+        Route::post('/properties/{id}/restore', [PropertyController::class, 'restore']); // Restaurer
+        Route::delete('/properties/{id}/force', [PropertyController::class, 'forceDestroy']); // Supprimer définitivement
+
         // CRUD utilisateurs / agents (admin uniquement via Policy)
         Route::post('/users', [UserController::class, 'store']);       // Créer un agent
         Route::put('/users/{id}', [UserController::class, 'update']); // Modifier un agent

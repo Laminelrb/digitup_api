@@ -11,56 +11,83 @@ use App\Models\User;
  */
 class PropertyPolicy
 {
-
+    /**
+     * Tout le monde peut voir la liste des propriétés (visiteurs inclus)
+     */
     public function viewAny(?User $user): bool
     {
-        // Tout le monde peut voir la liste (visiteurs inclus)
         return true;
     }
 
-
+    /**
+     * Tout le monde peut voir les détails d'une propriété
+     */
     public function view(?User $user, Property $property): bool
     {
-        // Tout le monde peut voir les détails
         return true;
     }
 
-
+    /**
+     * Seuls les agents ou admins peuvent créer des propriétés
+     */
     public function create(User $user): bool
     {
-        // Seuls les agents ou admins peuvent créer des propriétés
         return in_array($user->role, ['agent', 'admin']);
     }
 
-
+    /**
+     * Mise à jour : admin peut tout, agent peut modifier ses propres propriétés
+     */
     public function update(User $user, Property $property): bool
     {
         if ($user->role === 'admin') {
-            // Les admins peuvent modifier toutes les propriétés
             return true;
         }
 
         if ($user->role === 'agent' && $user->id === $property->user_id) {
-            // Un agent peut modifier ses propres propriétés
             return true;
         }
 
-        return false; // Autres cas refusés
+        return false;
     }
 
-
+    /**
+     * Suppression (soft delete) : admin peut tout, agent peut supprimer ses propres propriétés
+     */
     public function delete(User $user, Property $property): bool
     {
         if ($user->role === 'admin') {
-            // Les admins peuvent supprimer toutes les propriétés
             return true;
         }
 
         if ($user->role === 'agent' && $user->id === $property->user_id) {
-            // Un agent peut supprimer ses propres propriétés
             return true;
         }
 
-        return false; // Autres cas refusés
+        return false;
+    }
+
+    /**
+     * Voir les propriétés supprimées (corbeille) : admins uniquement
+     */
+    public function viewTrashed(User $user): bool
+    {
+        return $user->role === 'admin';
+    }
+
+    /**
+     * Restaurer une propriété supprimée : ADMINS UNIQUEMENT
+     */
+    public function restore(User $user, Property $property): bool
+    {
+        return $user->role === 'admin';
+    }
+
+    /**
+     * Suppression définitive (force delete) : ADMINS UNIQUEMENT
+     */
+    public function forceDelete(User $user, Property $property): bool
+    {
+        return $user->role === 'admin';
     }
 }

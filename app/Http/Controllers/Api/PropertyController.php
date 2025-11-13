@@ -141,14 +141,11 @@ class PropertyController extends Controller
         ], 200);
     }
 
-    /**
-     * Suppression d’une propriété.
-     */
+    /** Soft delete d'une propriété */
     public function destroy(int $id): JsonResponse
     {
         $property = $this->repo->findOrFail($id);
 
-        // Vérification d’autorisation avant suppression
         try {
             $this->authorize('delete', $property);
         } catch (AuthorizationException $e) {
@@ -159,7 +156,54 @@ class PropertyController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Propriété supprimée avec succès.'
+            'message' => 'Propriété supprimée avec succès (soft delete).'
+        ], 200);
+    }
+
+    /** Liste des propriétés supprimées (admins uniquement) */
+    public function trashed(Request $request): JsonResponse
+    {
+        $this->authorize('viewTrashed', \App\Models\Property::class);
+
+        $perPage = (int) $request->input('per_page', 15);
+        $paginator = $this->repo->paginateOnlyTrashed($perPage);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Liste des propriétés supprimées .',
+            'data' => PropertyResource::collection($paginator)->response()->getData(true)
+        ], 200);
+    }
+
+    /** Restaurer une propriété supprimée */
+    public function restore(int $id): JsonResponse
+    {
+        // Récupérer même si soft-deleted
+        $property = $this->repo->findWithTrashedOrFail($id);
+
+        $this->authorize('restore', $property);
+
+        $restored = $this->repo->restore($id);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Propriété restaurée avec succès.',
+            'data' => new PropertyResource($restored)
+        ], 200);
+    }
+
+    /** Suppression définitive (force delete) */
+    public function forceDestroy(int $id): JsonResponse
+    {
+        $property = $this->repo->findWithTrashedOrFail($id);
+
+        $this->authorize('forceDelete', $property);
+
+        $this->service->forceDelete($property);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Propriété supprimée définitivement.'
         ], 200);
     }
 }

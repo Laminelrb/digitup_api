@@ -85,17 +85,22 @@ class PropertyService
     }
 
 
-    /**
-     * Supprime une propriété et ses images du stockage.
-     */
-    public function delete(Property $property)
+    /** Soft delete - ne supprime PAS les fichiers */
+    public function delete(Property $property): void
+    {
+        // Soft delete uniquement (les fichiers restent)
+        $this->repo->delete($property);
+    }
+
+    /** Force delete - supprime DÉFINITIVEMENT avec les fichiers */
+    public function forceDelete(Property $property): void
     {
         // Supprimer les images du disque
         foreach ($property->images as $img) {
             Storage::disk('public')->delete($img->path);
         }
 
-        // Suppression via le repository (soft delete si activé)
-        $this->repo->delete($property);
+        // Suppression définitive
+        $this->repo->forceDelete($property);
     }
 }
