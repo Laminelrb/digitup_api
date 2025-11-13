@@ -272,7 +272,7 @@ Accept: application/json
 }
 
 Exemple de réponse : 
-```json
+
 {
   "success": true,
   "message": "Agent créé avec succès",
