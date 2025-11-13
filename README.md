@@ -65,7 +65,7 @@ php artisan serve
 
 - FILESYSTEM_DISK=local
 
- ### Authentification Sanctum
+ #### Authentification Sanctum
 - SANCTUM_STATEFUL_DOMAINS=localhost:8000
 - SESSION_DOMAIN=localhost
 - SESSION_DRIVER=database
