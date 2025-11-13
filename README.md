@@ -9,8 +9,9 @@ API Laravel pour la gestion des biens immobiliers (CRUD, filtrage, upload d’im
 1. Cloner le projet :
 
 ```bash
-git clone <url-du-projet>
-cd <nom-du-projet>
+git clone https://github.com/Laminelrb/digitup_api.git
+cd immobiliers-api
+
 ```
 
 2. Installer les dépendances :
@@ -47,13 +48,13 @@ php artisan serve
 
 ## 🔑 Variables d'environnement
 
-- DB_CONNECTION
-- DB_HOST
-- DB_PORT
-- DB_DATABASE
-- DB_USERNAME
-- DB_PASSWORD
-- APP_URL
+- DB_CONNECTION=mysql
+- DB_HOST=127.0.0.1
+- DB_PORT=3306
+- DB_DATABASE=digitup_company
+- DB_USERNAME=root
+- DB_PASSWORD=
+- APP_URL=http://localhost
 
 ---
 
