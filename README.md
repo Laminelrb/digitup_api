@@ -6,52 +6,48 @@ API Laravel pour la gestion des biens immobiliers (CRUD, filtrage, upload d’im
 
 ## 📦 Installation
 
-1. Cloner le projet :
+1. **Cloner le projet :**
 
-```bash
 git clone https://github.com/Laminelrb/digitup_api.git
 cd immobiliers-api
-```
 
-2. Installer les dépendances :
+2. **Installer les dépendances :**
 
-```bash
 composer install
-```
 
-3. Copier le fichier `.env` et configurer la base de données :
+3. **Copier le fichier `.env` et configurer la base de données :**
 
 ### Linux / macOS
-```bash
 cp .env.example .env
-```
 
 ### Windows
-```bash
 copy .env.example .env
-```
 
-4. Générer la clé d’application :
+4. **Générer la clé d’application :**
 
-```bash
 php artisan key:generate
-```
 
-5. Lancer les migrations :
+5. **Installer Sanctum :**
 
-```bash
-php artisan migrate
-```
+composer require laravel/sanctum
 
-6. Lancer le serveur :
+# Publier la configuration et la migration
+php artisan vendor:publish --provider="Laravel\\Sanctum\\SanctumServiceProvider"
 
-```bash
+6. **Lancer les migrations :**
+
+php artisan migrate --seed
+
+7. **Créer le lien pour les images :**
+
+php artisan storage:link
+
+8. **Lancer le serveur :**
+
 php artisan serve
-```
 
----
 
-## 🔑 Variables d'environnement
+## 🔑 Exemple Variables d'environnement
 
 - DB_CONNECTION=mysql
 - DB_HOST=127.0.0.1
@@ -74,14 +70,47 @@ POST `/api/v1/login`
   "email": "agent@example.com",
   "password": "password"
 }
+Réponse :
+
+{
+  "token": "..."
+}
 ```
+→ Ensuite, utiliser le token dans les en-têtes :
+Authorization: Bearer <token>  
+Accept: application/json
 
-### Créer un bien immobilier (authentifié)
+---
 
-POST `/api/v1/properties`
+### Créer un bien immobilier (authentifié) avec images
+
+POST /api/v1/properties
+
+Headers :
+Authorization: Bearer <token>
+Content-Type: multipart/form-data
+
+Body (form-data) :
+
+Clé           | Valeur                        | Type
+--------------|-------------------------------|------
+type          | Appartement                   | Text
+nbr_piece     | 3                             | Text
+surface       | 80                            | Text
+price         | 150000                        | Text
+city          | Alger                         | Text
+description   | Beau T3 lumineux              | Text
+status        | disponible                    | Text
+published     | true                          | Text
+images[]      | fichier1.jpg                  | File
+images[]      | fichier2.jpg                  | File
+
+
+Exemple de réponse :
 
 ```json
 {
+  "id": 12,
   "type": "Appartement",
   "nbr_piece": 3,
   "surface": 80,
@@ -89,13 +118,24 @@ POST `/api/v1/properties`
   "city": "Alger",
   "description": "Beau T3 lumineux",
   "status": "disponible",
-  "published": true
+  "published": true,
+  "images": [
+    "storage/properties/fichier1.jpg",
+    "storage/properties/fichier2.jpg"
+  ],
+  "created_at": "2025-11-13T12:00:00Z"
 }
 ```
 
 ### Liste filtrée des biens
 
-GET `/api/v1/properties?city=Alger&type=Appartement&minPrice=100000&maxPrice=200000`
+GET `/api/v1/properties?city=Alger&type=Appartement&minPrice=100000&maxPrice=200000&q=lumineux
+
+Paramètres optionnels :
+- q → recherche full-text sur title et description
+- per_page → pagination (par défaut : 15)
+
+---
 
 ### Créer un utilisateur (agent) - admin uniquement
 
