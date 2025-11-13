@@ -339,7 +339,10 @@ Les contrôleurs (AuthController, UserController, PropertyController) reçoivent
 Les DTOs (LoginUserDTO, RegisterUserDTO, CreateUserDTO, UpdateUserDTO, CreatePropertyDTO, UpdatePropertyDTO, FilterPropertiesDTO) assurent une transmission structurée et sécurisée des données entre les couches. Les modèles Eloquent (User, Property, Property_images) définissent la structure et les relations des entités.  
 L’application utilise Sanctum pour l’authentification par token et PropertyPolicy pour gérer les règles d’autorisation liées aux actions sur les biens immobiliers.
 
-Lors d’une mise à jour de bien, le contrôleur valide la requête via UpdatePropertyRequest, puis transmet les données au service (PropertyService), qui applique la logique métier et encapsule les données dans un UpdatePropertyDTO. Le service appelle ensuite le repository (EloquentPropertyRepository) pour effectuer la mise à jour dans la base. Le modèle Eloquent de la propriété peut également générer automatiquement le title si nécessaire, basé sur le type, le nombre de pièces et la ville. Enfin, la réponse est normalisée grâce à PropertyResource, et les erreurs éventuelles sont gérées de manière centralisée par le Handler, garantissant des réponses cohérentes et fiables.
+Lors d’une création ou mise à jour d’un bien, le contrôleur valide la requête via CreatePropertyRequest ou UpdatePropertyRequest, puis transmet les données au service (PropertyService), qui applique la logique métier et encapsule les données dans un DTO approprié (CreatePropertyDTO ou UpdatePropertyDTO). Le service appelle ensuite le repository (EloquentPropertyRepository) pour effectuer la création ou la mise à jour dans la base.
+Le modèle Eloquent Property utilise la méthode statique generateTitle() pour générer automatiquement le title si celui-ci est vide. Cette fonction construit le titre en combinant le type du bien, le nombre de pièces et la ville, garantissant ainsi des titres cohérents et lisibles pour tous les biens.
+Le modèle utilise également Soft Deletes, permettant la suppression logique des biens. Les biens supprimés restent dans la base et peuvent être restaurés via l’API par un administrateur.
+Enfin, la réponse est normalisée grâce à PropertyResource, et les erreurs éventuelles sont gérées de manière centralisée par le Handler, assurant des réponses JSON cohérentes et fiables.
 
 ---
 
