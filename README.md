@@ -153,6 +153,12 @@ Paramètres disponibles :
 
 GET /api/v1/properties/trashed/list
 
+Headers : 
+
+Authorization: Bearer YOUR_ADMIN_TOKEN_HERE
+Accept: application/json
+
+
 Exemple de réponse :
 
 {
@@ -182,6 +188,12 @@ Exemple de réponse :
 ### Restaurer un bien supprimé – admin uniquement
 
 POST /api/v1/properties/{id}/restore
+
+Headers : 
+
+Authorization: Bearer YOUR_ADMIN_TOKEN_HERE
+Accept: application/json
+
 
 Remplace {id} par l’ID du bien supprimé que tu veux restaurer.
 
@@ -215,6 +227,12 @@ Exemple de réponse :
 ### Créer un utilisateur (agent) - admin uniquement
 
 POST `/api/v1/users`
+
+Headers : 
+
+Authorization: Bearer YOUR_ADMIN_TOKEN_HERE
+Accept: application/json
+
 
 {
   "name": "Nom Agent",
