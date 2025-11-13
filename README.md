@@ -206,7 +206,8 @@ Exemple de réponse :
       "storage/properties/fichier2.jpg"
     ]
   }
-}
+} 
+```
 
 
 ---
