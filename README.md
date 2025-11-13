@@ -87,9 +87,9 @@ Accept: application/json
 
 POST `/api/v1/properties`
 
-Headers :  
-Authorization: Bearer <token>  # Remplace <token> par le token reçu après login
- 
+Headers :
+Authorization: Bearer YOUR_TOKEN_HERE  # Remplace YOUR_TOKEN_HERE par le token reçu après login
+
 Content-Type: multipart/form-data
 
 Body (form-data) :
