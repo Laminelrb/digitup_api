@@ -62,6 +62,8 @@ php artisan serve
 
 ## 🚀 Exemples de requêtes API
 
+URL de base de l'API : http://localhost:8000
+
 ### Login
 
 POST `/api/v1/login`
@@ -89,7 +91,7 @@ POST `/api/v1/properties`
 
 Headers :
 
-Authorization: Bearer YOUR_TOKEN_HERE  # Remplace YOUR_TOKEN_HERE par le token reçu après login
+Authorization: Bearer YOUR_TOKEN_HERE    # Remplace YOUR_TOKEN_HERE par le token reçu après login
 
 Content-Type: multipart/form-data
 
@@ -131,11 +133,18 @@ Exemple de réponse :
 
 ### Liste filtrée des biens
 
-GET `/api/v1/properties?city=Alger&type=Appartement&minPrice=100000&maxPrice=200000&q=lumineux`
+GET `/api/v1/properties?city=Alger&type=Appartement&minPrice=100000&maxPrice=200000&q=lumineux&per_page=10&page=1`
 
 Paramètres optionnels :  
-- q → recherche full-text sur title et description  
-- per_page → pagination (par défaut : 15)
+
+- `city` → filtre par ville (exemple : "Alger"). L’API ne renverra que les biens situés dans cette ville.  
+- `type` → filtre par type de bien (exemple : "Appartement", "Maison", "Villa", etc.).  
+- `minPrice` → prix minimum souhaité (exemple : 100000). L’API ne renverra que les biens dont le prix est supérieur ou égal à cette valeur.  
+- `maxPrice` → prix maximum souhaité (exemple : 200000). L’API ne renverra que les biens dont le prix est inférieur ou égal à cette valeur.  
+- `q` → recherche full-text sur le `title` et la `description` (exemple : "lumineux").  
+- `per_page` → nombre de résultats par page (pagination), par défaut 15.  
+- `page` → numéro de la page à récupérer (pagination), par défaut 1.
+
 
 ---
 
